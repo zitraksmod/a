@@ -46,9 +46,6 @@ iface ens18 inet static
         post-up iptables -t nat -I POSTROUTING -o ens18 -j MASQUERADE
         post-down iptables -t nat -F
 
-#auto ens19
-#iface ens19 inet manual
-
 auto ens19.100
 iface ens19.100 inet static
         address 192.168.100.1/29
