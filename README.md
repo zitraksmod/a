@@ -72,7 +72,7 @@ iface gre1 inet static
 useradd -m -s /bin/bash net_admin
 passwd net_admin 
 P@$$word
-nano /etc/sudoers
+visudo
 net_admin ALL=(ALL) NOPASSWD: ALL
 
 nano /etc/frr/daemons
@@ -143,7 +143,7 @@ iface gre1 inet static
 useradd -m -s /bin/bash net_admin
 passwd net_admin 
 P@$$word
-nano /etc/sudoers
+visudo
 net_admin ALL=(ALL) NOPASSWD: ALL
 
 nano /etc/frr/daemons
@@ -179,7 +179,7 @@ iface ens18 inet static
 
 useradd -u 1015 -m -s /bin/bash sshuser
 echo sshuser:P@ssw0rd | chpasswd
-nano /etc/sudoers
+visudo
 sshuser ALL=(ALL) NOPASSWD: ALL
 
 
@@ -210,7 +210,7 @@ iface ens18 inet static
 
 useradd -u 1015 -m -s /bin/bash sshuser
 echo sshuser:P@ssw0rd | chpasswd
-nano /etc/sudoers
+visudo
 sshuser ALL=(ALL) NOPASSWD: ALL
 
 nano /etc/ssh/banner.txt
