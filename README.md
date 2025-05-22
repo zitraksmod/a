@@ -116,7 +116,7 @@ sysctl -p
 
 systemctl enable ssh
 systemctl enable frr
-systemctl enable dnsmasq
+
 
 
 nano /etc/network/interfaces
