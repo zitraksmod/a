@@ -186,7 +186,7 @@ sshuser ALL=(ALL) NOPASSWD: ALL
 nano /etc/ssh/banner.txt
 Authorized access only
 
-nano etc/ssh/sshd_config.d/demo.conf
+nano etc/ssh/sshd_config
 
 Port 3015
 AllowUsers sshuser
@@ -216,7 +216,7 @@ sshuser ALL=(ALL) NOPASSWD: ALL
 nano /etc/ssh/banner.txt
 Authorized access only
 
-nano etc/ssh/sshd_config.d/demo.conf
+nano etc/ssh/sshd_config
 
 Port 3015
 AllowUsers sshuser
