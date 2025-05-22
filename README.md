@@ -1,6 +1,6 @@
 ---------------------------------------ISP-----------------------------------------------------
 
-hostnamectl set-hostname isp.au-team.irpo
+hostnamectl set-hostname isp
 timedatectl set-timezone Europe/Moscow
 
 nano /etc/sysctl.conf
@@ -17,11 +17,11 @@ iface ens18 inet dhcp
 
 auto ens19
 iface ens19 inet static
-    address 172.16.4.1/28
+    address 172.16.40.1/28
 
 auto ens20
 iface ens20 inet static
-    address 172.16.5.1/28
+    address 172.16.50.1/28
 
 ---------------------------------------HQ-RTR--------------------------------------------
 
@@ -41,23 +41,23 @@ nano /etc/network/interfaces
 
 auto ens18
 iface ens18 inet static
-        address 172.16.4.2/28
-        gateway 172.16.4.1
+        address 172.16.40.2/28
+        gateway 172.16.40.1
         post-up iptables -t nat -I POSTROUTING -o ens18 -j MASQUERADE
         post-down iptables -t nat -F
 
-auto ens19.100
-iface ens19.100 inet static
-        address 192.168.100.1/29
+auto ens19.10
+iface ens19.10 inet static
+        address 192.168.10.1/29
         vlan-raw-device ens19
 
-auto ens19.200
-iface ens19.200 inet static
-        address 192.168.200.1/29
+auto ens19.20
+iface ens19.20 inet static
+        address 192.168.20.1/29
         vlan-raw-device ens19
 
-auto ens19.999
-iface ens19.999 inet static
+auto ens19.99
+iface ens19.99 inet static
         address 192.168.99.1/30
         vlan-raw-device ens19
 
@@ -65,7 +65,7 @@ auto gre1
 iface gre1 inet static
     address 192.168.255.1
     netmask 255.255.255.252
-    pre-up ip tunnel add gre1 mode gre remote 172.16.5.2 local 172.16.4.2 ttl 64 dev ens18
+    pre-up ip tunnel add gre1 mode gre remote 172.16.50.2 local 172.16.40.2 ttl 64 dev ens18
     up ip link set gre1 up
     post-down ip tunnel del gre1
 
@@ -88,8 +88,8 @@ exit
 router ospf
 passive-interface default
 no passive-interface gre1
-network 192.168.100.0/29 area 0
-network 192.168.200.0/29 area 0
+network 192.168.10.0/29 area 0
+network 192.168.20.0/29 area 0
 network 192.168.99.0/30 area 0
 network 192.168.255.0/30 area 0
 area 0 authentication message-digest
@@ -98,12 +98,12 @@ do wr
 echo "" > /etc/dnsmasq.conf
 nano /etc/dnsmasq.conf
 domain=au-team.irpo
-interface=ens19.200
-dhcp-range=192.168.200.2,192.168.200.6,24h
+interface=ens19.20
+dhcp-range=192.168.20.2,192.168.20.6,24h
 dhcp-option=1,255.255.255.248
-dhcp-option=3,192.168.200.1
-dhcp-option=6,192.168.100.2
-dhcp-host=bc:24:11:84:40:b2,192.168.200.6
+dhcp-option=3,192.168.20.1
+dhcp-option=6,192.168.10.2
+dhcp-host=bc:24:11:84:40:b2,192.168.20.6
 
 
 ---------------------------------------BR-RTR-----------------------------------------------------
@@ -123,8 +123,8 @@ nano /etc/network/interfaces
 
 auto ens18
 iface ens18 inet static
-        address 172.16.5.2/28
-        gateway 172.16.5.1
+        address 172.16.50.2/28
+        gateway 172.16.50.1
         post-up iptables -t nat -I POSTROUTING -o ens18 -j MASQUERADE
         post-down iptables -t nat -F
 
@@ -136,7 +136,7 @@ auto gre1
 iface gre1 inet static
     address 192.168.255.2
     netmask 255.255.255.252
-    pre-up ip tunnel add gre1 mode gre remote 172.16.4.2 local 172.16.5.2 ttl 64 dev ens18
+    pre-up ip tunnel add gre1 mode gre remote 172.16.40.2 local 172.16.50.2 ttl 64 dev ens18
     up ip link set gre1 up
     post-down ip tunnel del gre1
 
@@ -173,11 +173,11 @@ systemctl enable ssh
 nano /etc/network/interfaces
 auto ens18
 iface ens18 inet static
-        address 192.168.100.2/29
-        gateway 192.168.100.1
+        address 192.168.10.2/29
+        gateway 192.168.10.1
 
 
-useradd -u 1010 -m -s /bin/bash sshuser
+useradd -u 1015 -m -s /bin/bash sshuser
 echo sshuser:P@ssw0rd | chpasswd
 nano /etc/sudoers
 sshuser ALL=(ALL) NOPASSWD: ALL
@@ -188,7 +188,7 @@ Authorized access only
 
 nano etc/ssh/sshd_config.d/demo.conf
 
-Port 2024
+Port 3015
 AllowUsers sshuser
 MaxAuthTries 2
 Banner /etc/ssh/banner.txt
@@ -208,7 +208,7 @@ iface ens18 inet static
         gateway 192.168.2.1
 
 
-useradd -u 1010 -m -s /bin/bash sshuser
+useradd -u 1015 -m -s /bin/bash sshuser
 echo sshuser:P@ssw0rd | chpasswd
 nano /etc/sudoers
 sshuser ALL=(ALL) NOPASSWD: ALL
@@ -218,7 +218,7 @@ Authorized access only
 
 nano etc/ssh/sshd_config.d/demo.conf
 
-Port 2024
+Port 3015
 AllowUsers sshuser
 MaxAuthTries 2
 Banner /etc/ssh/banner.txt
