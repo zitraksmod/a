@@ -205,7 +205,7 @@ nano /etc/network/interfaces
 auto ens18
 iface ens18 inet static
         address 192.168.3.2/29
-        gateway 192.168.2.1
+        gateway 192.168.3.1
 
 
 useradd -u 1015 -m -s /bin/bash sshuser
